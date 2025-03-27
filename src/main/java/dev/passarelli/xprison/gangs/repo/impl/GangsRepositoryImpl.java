@@ -1,7 +1,6 @@
 package dev.passarelli.xprison.gangs.repo.impl;
 
 import dev.passarelli.xprison.database.SQLDatabase;
-import dev.passarelli.xprison.database.model.SQLDatabaseType;
 import dev.passarelli.xprison.gangs.model.Gang;
 import dev.passarelli.xprison.gangs.model.GangInvitation;
 import dev.passarelli.xprison.gangs.repo.GangsRepository;
@@ -94,11 +93,10 @@ public class GangsRepositoryImpl implements GangsRepository {
 
 	@Override
 	public void createGang(Gang g) {
-		String sql = "INSERT INTO " + TABLE_NAME + "(UUID,name,owner,members) VALUES(?,?,?,?) ";
-		if (this.database.getDatabaseType() == SQLDatabaseType.MYSQL)
-			sql += "ON DUPLICATE KEY UPDATE";
-		else
-			sql += "ON CONFLICT DO NOTHING";
+		String sql = switch (this.database.getDatabaseType()) {
+			case MYSQL -> "INSERT IGNORE INTO " + TABLE_NAME + "(UUID,name,owner,members) VALUES(?,?,?,?)";
+			default -> "INSERT INTO " + TABLE_NAME + "(UUID,name,owner,members) VALUES(?,?,?,?) ON CONFLICT DO NOTHING";
+		};
 		this.database.executeSqlAsync(sql, g.getUuid().toString(), g.getName(), g.getGangOwner().toString(), "");
 	}
 

@@ -62,6 +62,7 @@ public abstract class SQLDatabase {
 			}
 
 		} catch (SQLException e) {
+			this.plugin.getLogger().info("Statement failed: " + sql + " (Replacement values: " + Arrays.toString(replacements) + ").");
 			e.printStackTrace();
 		}
 	}

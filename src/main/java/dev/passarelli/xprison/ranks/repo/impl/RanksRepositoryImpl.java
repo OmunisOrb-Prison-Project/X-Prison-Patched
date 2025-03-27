@@ -1,7 +1,6 @@
 package dev.passarelli.xprison.ranks.repo.impl;
 
 import dev.passarelli.xprison.database.SQLDatabase;
-import dev.passarelli.xprison.database.model.SQLDatabaseType;
 import dev.passarelli.xprison.ranks.repo.RanksRepository;
 import org.bukkit.OfflinePlayer;
 
@@ -44,11 +43,10 @@ public class RanksRepositoryImpl implements RanksRepository {
 
 	@Override
 	public void addIntoRanks(OfflinePlayer player) {
-		String sql = "INSERT INTO " + TABLE_NAME + "(UUID, id_rank) VALUES(?, ?) ";
-		if (this.database.getDatabaseType() == SQLDatabaseType.MYSQL)
-			sql += "ON DUPLICATE KEY UPDATE";
-		else
-			sql += "ON CONFLICT DO NOTHING";
+		String sql = switch (this.database.getDatabaseType()) {
+			case MYSQL -> "INSERT IGNORE INTO " + TABLE_NAME + "(UUID, id_rank) VALUES(?, ?)";
+			default -> "INSERT INTO " + TABLE_NAME + "(UUID, id_rank) VALUES(?, ?) ON CONFLICT DO NOTHING";
+		};
 		this.database.executeSql(sql, player.getUniqueId().toString(), 0);
 	}
 
