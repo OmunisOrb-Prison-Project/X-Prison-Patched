@@ -1,6 +1,7 @@
 package dev.passarelli.xprison.prestiges.repo.impl;
 
 import dev.passarelli.xprison.database.SQLDatabase;
+import dev.passarelli.xprison.database.model.SQLDatabaseType;
 import dev.passarelli.xprison.prestiges.repo.PrestigeRepository;
 import org.bukkit.OfflinePlayer;
 
@@ -31,7 +32,11 @@ public class PrestigeRepositoryImpl implements PrestigeRepository {
 
     @Override
     public void addIntoPrestiges(OfflinePlayer player) {
-        String sql = "INSERT INTO " + TABLE_NAME + "(UUID,id_prestige) VALUES(?,?) ON CONFLICT DO NOTHING";
+        String sql = "INSERT INTO " + TABLE_NAME + "(UUID,id_prestige) VALUES(?,?) ";
+        if (this.database.getDatabaseType() == SQLDatabaseType.MYSQL)
+            sql += "ON DUPLICATE KEY UPDATE";
+        else
+            sql += "ON CONFLICT DO NOTHING";
         this.database.executeSql(sql, player.getUniqueId().toString(), 0);
     }
 

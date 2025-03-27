@@ -1,6 +1,7 @@
 package dev.passarelli.xprison.gems.repo.impl;
 
 import dev.passarelli.xprison.database.SQLDatabase;
+import dev.passarelli.xprison.database.model.SQLDatabaseType;
 import dev.passarelli.xprison.gems.repo.GemsRepository;
 import org.bukkit.OfflinePlayer;
 
@@ -59,7 +60,11 @@ public class GemsRepositoryImpl implements GemsRepository {
 
 	@Override
 	public void addIntoGems(OfflinePlayer player, long startingGems) {
-		String sql = "INSERT INTO " + TABLE_NAME + " VALUES(?,?) ON CONFLICT DO NOTHING";
+		String sql = "INSERT INTO " + TABLE_NAME + " VALUES(?,?) ";
+		if (this.database.getDatabaseType() == SQLDatabaseType.MYSQL)
+			sql += "ON DUPLICATE KEY UPDATE";
+		else
+			sql += "ON CONFLICT DO NOTHING";
 		this.database.executeSql(sql, player.getUniqueId().toString(), startingGems);
 	}
 

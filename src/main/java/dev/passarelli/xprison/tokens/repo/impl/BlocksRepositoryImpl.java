@@ -1,6 +1,7 @@
 package dev.passarelli.xprison.tokens.repo.impl;
 
 import dev.passarelli.xprison.database.SQLDatabase;
+import dev.passarelli.xprison.database.model.SQLDatabaseType;
 import dev.passarelli.xprison.tokens.repo.BlocksRepository;
 import org.bukkit.OfflinePlayer;
 
@@ -72,14 +73,22 @@ public class BlocksRepositoryImpl implements BlocksRepository {
 
     @Override
     public void addIntoBlocks(OfflinePlayer player) {
-        String sql = "INSERT INTO " + TABLE_NAME_BLOCKS + "(UUID, blocks) VALUES(?,?) ON CONFLICT DO NOTHING";
+        String sql = "INSERT INTO " + TABLE_NAME_BLOCKS + "(UUID, blocks) VALUES(?,?) ";
+        if (this.database.getDatabaseType() == SQLDatabaseType.MYSQL)
+            sql += "ON DUPLICATE KEY UPDATE";
+        else
+            sql += "ON CONFLICT DO NOTHING";
         this.database.executeSql(sql, player.getUniqueId().toString(), 0);
     }
 
 
     @Override
     public void addIntoBlocksWeekly(OfflinePlayer player) {
-        String sql = "INSERT INTO " + TABLE_NAME_BLOCKS_WEEKLY + "(UUID, blocks) VALUES(?,?) ON CONFLICT DO NOTHING";
+        String sql = "INSERT INTO " + TABLE_NAME_BLOCKS_WEEKLY + "(UUID, blocks) VALUES(?,?) ";
+        if (this.database.getDatabaseType() == SQLDatabaseType.MYSQL)
+            sql += "ON DUPLICATE KEY UPDATE";
+        else
+            sql += "ON CONFLICT DO NOTHING";
         this.database.executeSql(sql, player.getUniqueId().toString(), 0);
     }
 
