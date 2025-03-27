@@ -1,5 +1,6 @@
 package dev.passarelli.xprison.mines.managers;
 
+import com.cryptomorin.xseries.XEnchantment;
 import dev.passarelli.xprison.mines.XPrisonMines;
 import dev.passarelli.xprison.mines.api.events.MineCreateEvent;
 import dev.passarelli.xprison.mines.api.events.MineDeleteEvent;
@@ -29,7 +30,6 @@ import me.lucko.helper.serialize.Region;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
@@ -41,7 +41,7 @@ import java.util.stream.Collectors;
 
 public class MineManager {
 
-	public static final ItemStack SELECTION_TOOL = ItemStackBuilder.of(Material.STICK).enchant(Enchantment.UNBREAKING).name("&eMine Selection Tool").lore("&aRight-Click &fto set &aPosition 1 &7(MIN)", "&aLeft-Click &fto set &aPosition 2 &7(MAX)").build();
+	public static final ItemStack SELECTION_TOOL = ItemStackBuilder.of(Material.STICK).enchant(XEnchantment.UNBREAKING).name("&eMine Selection Tool").lore("&aRight-Click &fto set &aPosition 1 &7(MIN)", "&aLeft-Click &fto set &aPosition 2 &7(MAX)").build();
 
 	private final MineLoader mineLoader;
 	private final MineSaver mineSaver;

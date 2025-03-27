@@ -1,7 +1,6 @@
 package dev.passarelli.xprison.mines.migration.gui;
 
 import dev.passarelli.xprison.mines.migration.model.MinesMigration;
-import dev.passarelli.xprison.mines.migration.model.impl.MineResetLiteMigration;
 import dev.passarelli.xprison.mines.migration.utils.MinesMigrationUtils;
 import dev.passarelli.xprison.utils.compat.CompMaterial;
 import dev.passarelli.xprison.utils.item.ItemStackBuilder;
@@ -42,8 +41,8 @@ public final class AllMinesMigrationGui extends Gui {
 
 	private void populateAvailableMigrations() {
 		try {
-			MinesMigration migration = new MineResetLiteMigration();
-			this.addItem(createItemForMigration(migration));
+//			MinesMigration migration = new MineResetLiteMigration();
+//			this.addItem(createItemForMigration(migration));
 		} catch (NoClassDefFoundError e) {
 
 		}

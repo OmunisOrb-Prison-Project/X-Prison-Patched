@@ -1,5 +1,6 @@
 package dev.passarelli.xprison.gems.managers;
 
+import com.cryptomorin.xseries.XEnchantment;
 import dev.passarelli.xprison.api.enums.LostCause;
 import dev.passarelli.xprison.api.enums.ReceiveCause;
 import dev.passarelli.xprison.gems.XPrisonGems;
@@ -19,7 +20,6 @@ import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -315,7 +315,7 @@ public class GemsManager {
 	}
 
 	private ItemStack createGemsItem(long amount, int value) {
-		ItemStack item = ItemStackBuilder.of(this.gemsItem.clone()).amount(value).name(this.gemsItemDisplayName.replace("%amount%", String.format("%,d", amount)).replace("%tokens%", String.format("%,d", amount))).lore(this.gemsItemLore).enchant(Enchantment.PROTECTION).flag(ItemFlag.HIDE_ENCHANTS).build();
+		ItemStack item = ItemStackBuilder.of(this.gemsItem.clone()).amount(value).name(this.gemsItemDisplayName.replace("%amount%", String.format("%,d", amount)).replace("%tokens%", String.format("%,d", amount))).lore(this.gemsItemLore).enchant(XEnchantment.PROTECTION).flag(ItemFlag.HIDE_ENCHANTS).build();
 		final PrisonItem prisonItem = new PrisonItem(item);
 		prisonItem.setGems(amount);
 		prisonItem.load();

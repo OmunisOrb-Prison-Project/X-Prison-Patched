@@ -1,5 +1,6 @@
 package dev.passarelli.xprison.tokens.managers;
 
+import com.cryptomorin.xseries.XEnchantment;
 import dev.passarelli.xprison.api.enums.LostCause;
 import dev.passarelli.xprison.api.enums.ReceiveCause;
 import dev.passarelli.xprison.tokens.XPrisonTokens;
@@ -296,7 +297,7 @@ public class TokensManager {
 				.amount(value)
 				.name(this.plugin.getTokensConfig().getTokenItemDisplayName().replace("%amount%", String.format("%,d", amount)).replace("%tokens%", String.format("%,d", amount)))
 				.lore(this.plugin.getTokensConfig().getTokenItemLore())
-				.enchant(Enchantment.PROTECTION)
+				.enchant(XEnchantment.PROTECTION)
 				.flag(ItemFlag.HIDE_ENCHANTS)
 				.build();
 		final PrisonItem prisonItem = new PrisonItem(item);

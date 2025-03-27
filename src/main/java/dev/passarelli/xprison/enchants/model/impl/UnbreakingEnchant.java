@@ -1,8 +1,8 @@
 package dev.passarelli.xprison.enchants.model.impl;
 
+import com.cryptomorin.xseries.XEnchantment;
 import dev.passarelli.xprison.enchants.XPrisonEnchants;
 import dev.passarelli.xprison.enchants.model.XPrisonEnchantment;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
@@ -17,7 +17,7 @@ public final class UnbreakingEnchant extends XPrisonEnchantment {
 	@Override
 	public void onEquip(Player p, ItemStack pickAxe, int level) {
 		ItemMeta meta = pickAxe.getItemMeta();
-		meta.addEnchant(Enchantment.UNBREAKING, level, true);
+		meta.addEnchant(XEnchantment.UNBREAKING.get(), level, true);
 		pickAxe.setItemMeta(meta);
 	}
 

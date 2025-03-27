@@ -25,12 +25,12 @@
 
 package dev.passarelli.xprison.utils.item;
 
+import com.cryptomorin.xseries.XEnchantment;
 import dev.passarelli.xprison.utils.text.TextUtils;
 import me.lucko.helper.menu.Item;
 import me.lucko.helper.utils.annotation.NonnullByDefault;
 import org.bukkit.Color;
 import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemFlag;
@@ -39,10 +39,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Consumer;
 
 /**
@@ -50,11 +47,7 @@ import java.util.function.Consumer;
  */
 @NonnullByDefault
 public final class ItemStackBuilder {
-	private static final ItemFlag[] ALL_FLAGS = new ItemFlag[]{
-			ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES,
-			ItemFlag.HIDE_UNBREAKABLE, ItemFlag.HIDE_ADDITIONAL_TOOLTIP,
-			ItemFlag.HIDE_DESTROYS, ItemFlag.HIDE_PLACED_ON
-	};
+	private static final ItemFlag[] ALL_FLAGS = EnumSet.allOf(ItemFlag.class).toArray(new ItemFlag[0]);
 
 	private final ItemStack itemStack;
 
@@ -136,12 +129,17 @@ public final class ItemStackBuilder {
 		return transform(itemStack -> itemStack.setAmount(amount));
 	}
 
-	public ItemStackBuilder enchant(Enchantment enchantment, int level) {
-		return transform(itemStack -> itemStack.addUnsafeEnchantment(enchantment, level));
+	public ItemStackBuilder enchant(XEnchantment enchantment) {
+		return enchant(enchantment, 1);
 	}
 
-	public ItemStackBuilder enchant(Enchantment enchantment) {
-		return transform(itemStack -> itemStack.addUnsafeEnchantment(enchantment, 1));
+	public ItemStackBuilder enchant(XEnchantment enchantment, int level) {
+		if (enchantment.isSupported()) {
+			return transform(itemStack -> itemStack.addUnsafeEnchantment(enchantment.get(), level));
+		}
+		else {
+			return this;
+		}
 	}
 
 	public ItemStackBuilder clearEnchantments() {

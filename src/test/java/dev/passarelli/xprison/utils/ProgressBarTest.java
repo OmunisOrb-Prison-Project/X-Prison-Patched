@@ -1,6 +1,5 @@
 package dev.passarelli.xprison.utils;
 
-
 import org.junit.jupiter.api.Test;
 
 import static dev.passarelli.xprison.utils.misc.ProgressBar.getProgressBar;

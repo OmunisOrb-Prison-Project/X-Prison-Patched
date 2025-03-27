@@ -1,6 +1,5 @@
 package dev.passarelli.xprison;
 
-import com.github.lalyos.jfiglet.FigletFont;
 import dev.passarelli.xprison.autominer.XPrisonAutoMiner;
 import dev.passarelli.xprison.autosell.XPrisonAutoSell;
 import dev.passarelli.xprison.config.FileManager;
@@ -24,13 +23,11 @@ import dev.passarelli.xprison.nicknames.repo.impl.NicknameRepositoryImpl;
 import dev.passarelli.xprison.nicknames.service.NicknameService;
 import dev.passarelli.xprison.nicknames.service.impl.NicknameServiceImpl;
 import dev.passarelli.xprison.pickaxelevels.XPrisonPickaxeLevels;
-import dev.passarelli.xprison.placeholders.XPrisonMVdWPlaceholder;
 import dev.passarelli.xprison.placeholders.XPrisonPAPIPlaceholder;
 import dev.passarelli.xprison.prestiges.XPrisonPrestiges;
 import dev.passarelli.xprison.ranks.XPrisonRanks;
 import dev.passarelli.xprison.tokens.XPrisonTokens;
 import dev.passarelli.xprison.utils.Constants;
-import dev.passarelli.xprison.utils.Metrics;
 import dev.passarelli.xprison.utils.compat.CompMaterial;
 import dev.passarelli.xprison.utils.misc.SkullUtils;
 import dev.passarelli.xprison.utils.text.TextUtils;
@@ -99,11 +96,6 @@ public final class XPrison extends ExtendedJavaPlugin {
 		this.fileManager.getConfig("config.yml").copyDefaults(true).save();
 		this.debugMode = this.getConfig().getBoolean("debug-mode", false);
 
-		// All you have to do is adding the following two lines in your onEnable method.
-		// You can find the plugin ids of your plugins on the page https://bstats.org/what-is-my-plugin-id
-		int pluginId = 10520; // <-- Replace with the id of your plugin!
-		Metrics metrics = new Metrics(this, pluginId);
-
 		if (!this.initDatabase()) {
 			this.getServer().getPluginManager().disablePlugin(this);
 			return;
@@ -130,19 +122,14 @@ public final class XPrison extends ExtendedJavaPlugin {
 
 		this.registerMainEvents();
 		this.registerMainCommand();
-		this.startMetrics();
 
 		SkullUtils.init();
 	}
 
 	private void printOnEnableMessage() {
-		try {
-			this.getLogger().info(FigletFont.convertOneLine("X-PRISON"));
-			this.getLogger().info(this.getDescription().getVersion());
-			this.getLogger().info("By: " + this.getDescription().getAuthors());
-			this.getLogger().info("Website: " + this.getDescription().getWebsite());
-		} catch (IOException ignored) {
-		}
+		this.getLogger().info(this.getDescription().getVersion());
+		this.getLogger().info("By: " + this.getDescription().getAuthors());
+		this.getLogger().info("Website: " + this.getDescription().getWebsite());
 	}
 
 	private void initNicknameService() {
@@ -280,10 +267,6 @@ public final class XPrison extends ExtendedJavaPlugin {
 				}).bindWith(this);
 	}
 
-	private void startMetrics() {
-		new Metrics(this, Constants.METRICS_SERVICE_ID);
-	}
-
 	private void loadModule(XPrisonModule module) {
 		if (module.isEnabled()) {
 			return;
@@ -387,11 +370,6 @@ public final class XPrison extends ExtendedJavaPlugin {
 	}
 
 	private void registerPlaceholders() {
-
-		if (isMVdWPlaceholderAPIEnabled()) {
-			new XPrisonMVdWPlaceholder(this).register();
-		}
-
 		if (isPlaceholderAPIEnabled()) {
 			new XPrisonPAPIPlaceholder(this).register();
 		}

@@ -1,10 +1,10 @@
 package dev.passarelli.xprison.enchants.model.impl;
 
+import com.cryptomorin.xseries.XEnchantment;
 import dev.passarelli.xprison.enchants.XPrisonEnchants;
 import dev.passarelli.xprison.enchants.model.XPrisonEnchantment;
 import dev.passarelli.xprison.utils.compat.CompMaterial;
 import org.bukkit.block.Block;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
@@ -26,7 +26,7 @@ public final class FortuneEnchant extends XPrisonEnchantment {
     @Override
     public void onEquip(Player p, ItemStack pickAxe, int level) {
         ItemMeta meta = pickAxe.getItemMeta();
-        meta.removeEnchant(Enchantment.FORTUNE);
+        meta.removeEnchant(XEnchantment.FORTUNE.get());
         pickAxe.setItemMeta(meta);
     }
 
